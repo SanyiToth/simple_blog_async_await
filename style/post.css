@@ -1,0 +1,41 @@
+
+h3 {
+    font-size:25px ;
+    padding: 10px;
+    color: #F83567;
+    border-bottom: 3px solid #F83567;
+}
+ul{
+    padding: 10px;
+}
+
+li {
+    background: #F2F3F4;
+    padding: 20px;
+    border: 1px solid black;
+    list-style: none;
+    margin: 10px;
+}
+
+#blog-content {
+    padding: 30px;
+
+}
+
+#comments{
+    padding: 30px;
+    background: #F8F9F9;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+#box{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#blog-content p{
+    font-size: 28px;
+
+}
+

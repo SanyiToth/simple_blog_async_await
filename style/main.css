@@ -1,15 +1,28 @@
-#grid-container {
-    display: grid;
-    grid-gap: 50px 100px;
-    grid-template-columns: auto auto auto;
-    /*background-color: #2196F3;*/
-    padding: 10px;
+@import "post.css";
+@import "index.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+body {
+    width: 1280px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
 }
 
-.grid-item {
-    /*background-color: rgba(255, 255, 255, 0.8);*/
+header {
+    text-align: left;
     border: 1px solid rgba(0, 0, 0, 0.8);
     padding: 20px;
-    /*font-size: 30px;*/
-    text-align: left;
+    margin-bottom: 30px;
+    height: 150px;
+    font-weight: 400;
+    background: #F8F9F9
+}
+
+span {
+    font-weight: 800;
+}
+
+a{
+    text-decoration: none;
 }
