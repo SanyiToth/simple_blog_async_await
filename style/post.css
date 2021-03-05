@@ -1,11 +1,12 @@
 
 h3 {
-    font-size:25px ;
+    font-size: 25px;
     padding: 10px;
     color: #F83567;
     border-bottom: 3px solid #F83567;
 }
-ul{
+
+ul {
     padding: 10px;
 }
 
@@ -17,7 +18,7 @@ li {
     margin: 10px;
 }
 
-#add-comment{
+#add-comment {
     margin: 0 auto;
     height: 700px;
 }
@@ -27,19 +28,28 @@ li {
 
 }
 
-#comments{
+#comments {
     padding: 30px;
     background: #F8F9F9;
     border: 1px solid rgba(0, 0, 0, 0.8);
 }
 
-#box{
+#box {
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-#blog-content p{
+#blog-content p {
     font-size: 28px;
 }
 
+.invalid {
+    border: 2px solid red;
+    background-color: lightcoral;
+}
+
+.valid {
+    border: 2px solid green;
+    background-color: lightgreen;
+}
