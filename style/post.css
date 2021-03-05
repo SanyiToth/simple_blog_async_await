@@ -17,6 +17,11 @@ li {
     margin: 10px;
 }
 
+#add-comment{
+    margin: 0 auto;
+    height: 700px;
+}
+
 #blog-content {
     padding: 30px;
 
@@ -36,6 +41,5 @@ li {
 
 #blog-content p{
     font-size: 28px;
-
 }
 

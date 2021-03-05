@@ -12,6 +12,19 @@
     <h3>Comments</h3>
     <ul id="comment-list"></ul>
 </section>
-<script  src="scripts/post.js"></script>
+<section id="add-comment">
+    <h3>Add comment - share your thoughts!</h3>
+    <form id="form-add-comment">
+        <label for="name">Name</label><br>
+        <input id="name" type="text" placeholder="eg. John Doe" required><br><br>
+        <label for="email">Email</label><br>
+        <input id="email" type="email" placeholder="your@email.com" required><br><br>
+        <label for="comment">Comment</label><br>
+        <textarea id="comment" name="comment" rows="10" cols="70" required>
+        </textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</section>
+<script src="scripts/post.js"></script>
 </body>
 </html>

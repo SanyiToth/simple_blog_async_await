@@ -2,6 +2,10 @@ const locationHash = Number.parseInt(location.hash.slice(1));
 const commentList = document.getElementById("comment-list");
 const blogContent = document.getElementById("blog-content");
 const header = document.querySelector("header");
+const form = document.getElementById("form-add-comment");
+const name = document.getElementById("name");
+const email = document.getElementById("email");
+const textArea = document.getElementById("comment");
 
 
 function logBlog(data1) {
@@ -20,24 +24,50 @@ function logBlog(data1) {
 
 function logComments(data2) {
     data2.forEach((comment) => {
-        let newComment = `<li class="comment-list__item"><h5>${comment.name}</h5>
+        if (comment.postId === locationHash) {
+            let newComment = `<li class="comment-list__item"><h5>${comment.name}</h5>
                                    <p>${comment.body}</p> 
                               </li>`
-        commentList.innerHTML += newComment;
+            commentList.innerHTML += newComment;
+        }
     })
 }
 
 async function getBlogAndComments() {
-    let response1 = await fetch("https://jsonplaceholder.typicode.com/posts");
+    let response1 = await fetch("http://localhost:3000/posts");
     let data1 = await response1.json();
     logBlog(data1);
 
-    let response2 = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${locationHash}`);
+    let response2 = await fetch(`http://localhost:3000/comments`); //http://localhost:3000/comments?postId=${locationHash}
     return await response2.json();
 }
 
+async function postComments(data) {
+    let response3 = fetch("http://localhost:3000/comments", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    return await response3.json();
+}
+
 getBlogAndComments().then(data2 => {
-    logComments(data2)
+    logComments(data2);
+    const newElementID = (data2[data2.length - 1].id) + 1;
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        let data = {
+            postId: locationHash,
+            id: newElementID,
+            name: name.value,
+            email: email.value,
+            body: textArea.value
+        };
+        postComments(data).then();
+        location.reload();
+    })
 })
 
 
