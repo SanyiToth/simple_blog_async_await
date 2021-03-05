@@ -2,35 +2,29 @@ const locationHash = Number.parseInt(location.hash.slice(1));
 const commentList = document.getElementById("comment-list");
 const blogContent = document.getElementById("blog-content");
 const header = document.querySelector("header");
-const form = document.getElementById("form-add-comment");
-const name = document.getElementById("name");
-const email = document.getElementById("email");
-const textArea = document.getElementById("comment");
-
 
 function logBlog(data1) {
     data1.forEach((blog) => {
         if (locationHash === blog.id) {
             header.innerHTML = `<h1>${blog.title}</h1>
-                                            <div id="box">
-                                              <p>Author:<span>Leanne Graham</span></p>
-                                              <p>website:<span>hildegard.org</span></p>
-                                              <a href="index.html" > << All posts</a> 
-                                            </div> `
+                                <div id="box">
+                                    <p>Author:<span>Leanne Graham</span></p>
+                                    <p>website:<span>hildegard.org</span></p>
+                                    <a href="index.html" > << All posts</a> 
+                                </div> `
             blogContent.innerHTML = `<p>${blog.body}</p>`
         }
     })
 }
 
 function logComments(data2) {
-    data2.forEach((comment) => {
-        if (comment.postId === locationHash) {
-            let newComment = `<li class="comment-list__item"><h5>${comment.name}</h5>
-                                   <p>${comment.body}</p> 
-                              </li>`
-            commentList.innerHTML += newComment;
-        }
-    })
+    for (let comment = data2.length - 1; comment >= 0; comment--) {
+        const newComment = `<li class="comment-list__item">
+                                <h5>${data2[comment].name}</h5>
+                                <p>${data2[comment].body}</p>
+                            </li>`
+        commentList.innerHTML += newComment;
+    }
 }
 
 async function getBlogAndComments() {
@@ -38,72 +32,15 @@ async function getBlogAndComments() {
     let data1 = await response1.json();
     logBlog(data1);
 
-    let response2 = await fetch(`http://localhost:3000/comments`); //http://localhost:3000/comments?postId=${locationHash}
+    let response2 = await fetch(`http://localhost:3000/comments?postId=${locationHash}`);
     return await response2.json();
 }
 
-async function postComments(data) {
-    let response3 = fetch("http://localhost:3000/comments", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    return await response3.json();
-}
 
 getBlogAndComments().then(data2 => {
     logComments(data2);
-    const newElementID = (data2[data2.length - 1].id) + 1;
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        let data = {
-            postId: locationHash,
-            id: newElementID,
-            name: name.value,
-            email: email.value,
-            body: textArea.value
-        };
-        postComments(data).then();
-        location.reload();
-    })
 })
 
 
-/*fetch("https://jsonplaceholder.typicode.com/posts")
-    .then(response => {
-        if (!response.ok) throw Error(response.statusText);
-        else return response.json();
-    })
-    .then(data => {
-            let POST_ID;
-            data.forEach((post) => {
-                if (locationHash === post.id) {
-                    POST_ID = post.id;
-                    header.innerHTML = `<h1>${post.title}</h1>
-                                            <div id="box">
-                                              <p>Author:<span>Leanne Graham</span></p>
-                                              <p>website:<span>hildegard.org</span></p>
-                                              <a href="index.html" > << All posts</a> 
-                                            </div> `
-                    blogContent.innerHTML = `<p>${post.body}</p>`
-                }
-            })
-            return fetch(`https://jsonplaceholder.typicode.com/comments?postId=${POST_ID}`);
-        }
-    )
-    .then(data => {
-        return data.json();
-    })
-    .then(response => {
-        response.forEach((comment) => {
-            console.log(comment)
-            let newComment = `<li class="comment-list__item"><h5>${comment.name}</h5>
-                                   <p>${comment.body}</p> 
-                              </li>`
-            commentList.innerHTML += newComment;
-        })
-    })
-    .catch(data => console.log("promise was rejected:", data));*/
+
 
