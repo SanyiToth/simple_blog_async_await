@@ -1,0 +1,16 @@
+#add-comment {
+    padding: 30px;
+    background: #F8F9F9;
+    margin: 0 auto;
+    height: 700px;
+
+}
+
+form {
+    display: grid;
+}
+
+form p {
+    color: #F83567;
+
+}

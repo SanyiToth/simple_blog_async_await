@@ -2,6 +2,8 @@ const locationHash = Number.parseInt(location.hash.slice(1));
 const commentList = document.getElementById("comment-list");
 const blogContent = document.getElementById("blog-content");
 const header = document.querySelector("header");
+const postHost = "http://localhost:3000/posts"
+
 
 function logBlog(data1) {
     data1.forEach((blog) => {
@@ -28,11 +30,11 @@ function logComments(data2) {
 }
 
 async function getBlogAndComments() {
-    let response1 = await fetch("http://localhost:3000/posts");
+    let response1 = await fetch(`${postHost}`);
     let data1 = await response1.json();
     logBlog(data1);
 
-    let response2 = await fetch(`http://localhost:3000/comments?postId=${locationHash}`);
+    let response2 = await fetch(`${commentHost}?postId=${locationHash}`);
     return await response2.json();
 }
 
@@ -40,7 +42,5 @@ async function getBlogAndComments() {
 getBlogAndComments().then(data2 => {
     logComments(data2);
 })
-
-
 
 

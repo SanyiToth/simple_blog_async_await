@@ -1,10 +1,11 @@
 @import "post.css";
 @import "index.css";
+@import "comment.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 
 body {
-    width: 1280px;
+    width: 90%;
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
 }

@@ -1,3 +1,12 @@
+#comment-list h5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#comment-list p {
+    margin-bottom: 5px;
+}
+
 
 h3 {
     font-size: 25px;
@@ -12,16 +21,12 @@ ul {
 
 li {
     background: #F2F3F4;
-    padding: 20px;
+    padding: 5px;
     border: 1px solid black;
     list-style: none;
     margin: 10px;
 }
 
-#add-comment {
-    margin: 0 auto;
-    height: 700px;
-}
 
 #blog-content {
     padding: 30px;
@@ -31,7 +36,7 @@ li {
 #comments {
     padding: 30px;
     background: #F8F9F9;
-    border: 1px solid rgba(0, 0, 0, 0.8);
+    /*border: 1px solid rgba(0, 0, 0, 0.8);*/
 }
 
 #box {

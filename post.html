@@ -15,14 +15,14 @@
 <section id="add-comment">
     <h3>Add comment - share your thoughts!</h3>
     <form id="form-add-comment">
-        <label for="name">Name</label><br>
-        <input id="name" type="text" placeholder="eg. John Doe" required><br><br>
-        <label for="email">Email</label><br>
-        <input id="email" type="email" placeholder="your@email.com" required><br><br>
-        <label for="comment">Comment</label><br>
-        <textarea id="comment" name="comment" rows="10" cols="70" required>
-        </textarea><br><br>
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="eg. John Doe" required><br>
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="your@email.com" required><br>
+        <label for="comment">Comment</label>
+        <textarea id="comment" name="comment" rows="10" cols="70" required placeholder="Add your comment!"></textarea><br>
         <input id="submit" type="submit" value="Submit" disabled>
+        <p id="error"></p>
     </form>
 </section>
 <script src="scripts/post.js"></script>
