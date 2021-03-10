@@ -24,8 +24,14 @@
     height:100px;
 }
 
-#paginate a{
+#paginate span{
     padding: 10px;
+    cursor: pointer;
+}
+
+.active{
+
+    color: red;
 }
 
 

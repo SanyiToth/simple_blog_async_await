@@ -12,17 +12,20 @@ async function getPosts() {
 getPosts().then(data => {
     const numberOfPages = Math.ceil(data.length / POST_PER_PAGE)
     logPaginate(numberOfPages);
+
 })
 
 async function getPartOfPosts() {
-    let response = await fetch("https://jsonplaceholder.typicode.com/posts?_page=1&_limit=30");
+    let response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=1&_limit=${POST_PER_PAGE}`);
     return await response.json();
 }
 
 getPartOfPosts().then(data => {
     data.forEach((post) => {
         logPosts(post);
+
     })
+
 })
 
 function logPosts(post) {
@@ -37,14 +40,15 @@ function logPosts(post) {
 
 function logPaginate(numberOfPages) {
     for (let page = 1; page <= numberOfPages; page++) {
-        let newPageLink = `<a class="page" href="">${page}</a>`
+        let newPageLink = `<span>${page}</span>`
         postsPaginate.innerHTML += newPageLink;
     }
+    postsPaginate.children[0].classList.add("active")
 }
 
 postsPaginate.addEventListener("click", (event) => {
-    event.preventDefault()
-    if (event.target.classList.contains("page")) {
+    // event.preventDefault()
+    if (event.target.localName === "span") {
         fetch(`https://jsonplaceholder.typicode.com/posts?_page=${event.target.innerText}&_limit=${POST_PER_PAGE}`)
             .then(response => {
                 return response.json()
@@ -55,15 +59,31 @@ postsPaginate.addEventListener("click", (event) => {
                 data.forEach((post) => {
                     logPosts(post);
                 })
+                event.target.classList.add("active");
+                Array.from(postsPaginate.children).forEach(item => {
+                    if (item !== event.target) {
+                        item.classList.remove("active");
+                    }
+                })
             })
     }
 })
+
+function getActiveSite() {
+    let result = null;
+    Array.from(postsPaginate.children).forEach(item => {
+        if (item.classList.contains("active")) {
+            result = item.innerText;
+        }
+    })
+    return result;
+}
 
 
 selector.addEventListener("change", (event) => {
     //ascend
     if (event.target.value === "oldest first") {
-        fetch("https://jsonplaceholder.typicode.com/posts?_sort=id&_order=asc")
+        fetch(`https://jsonplaceholder.typicode.com/posts?_sort=id&_order=asc&_page=${getActiveSite()}&_limit=${POST_PER_PAGE}`)
             .then(response => {
                 return response.json()
             })
@@ -75,7 +95,7 @@ selector.addEventListener("change", (event) => {
             })
         //descend
     } else {
-        fetch("https://jsonplaceholder.typicode.com/posts?_sort=id&_order=desc")
+        fetch(`https://jsonplaceholder.typicode.com/posts?_sort=id&_order=desc&_page=${getActiveSite()}&_limit=${POST_PER_PAGE}`)
             .then(response => {
                 return response.json()
             })
