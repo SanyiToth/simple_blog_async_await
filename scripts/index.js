@@ -3,6 +3,34 @@ const selector = document.getElementById("selector-post-order")
 const postsPaginate = document.getElementById("paginate")
 const POST_PER_PAGE = 30;
 
+function logPosts(post) {
+    let newPost = `<div class="grid-item">
+                        <h2>${post.title}</h2> 
+                        <p id="blog-content__paragraph">${post.body}</p>  
+                        <a href="post.html#${post.id}" target="_blank" >Learn more >></a>      
+                       </div>`
+    posts.innerHTML += newPost;
+}
+
+
+function logPaginate(numberOfPages) {
+    for (let page = 1; page <= numberOfPages; page++) {
+        let newPageLink = `<span>${page}</span>`
+        postsPaginate.innerHTML += newPageLink;
+    }
+    postsPaginate.children[0].classList.add("active")
+}
+
+
+function addActiveToClassList(event) {
+    event.target.classList.add("active");
+    Array.from(postsPaginate.children).forEach(item => {
+        if (item !== event.target) {
+            item.classList.remove("active");
+        }
+    })
+}
+
 
 async function getPosts() {
     let response = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -28,26 +56,7 @@ getPartOfPosts().then(data => {
 
 })
 
-function logPosts(post) {
-    let newPost = `<div class="grid-item">
-                        <h2>${post.title}</h2> 
-                        <p id="blog-content__paragraph">${post.body}</p>  
-                        <a href="post.html#${post.id}" target="_blank" >Learn more >></a>      
-                       </div>`
-    posts.innerHTML += newPost;
-}
-
-
-function logPaginate(numberOfPages) {
-    for (let page = 1; page <= numberOfPages; page++) {
-        let newPageLink = `<span>${page}</span>`
-        postsPaginate.innerHTML += newPageLink;
-    }
-    postsPaginate.children[0].classList.add("active")
-}
-
 postsPaginate.addEventListener("click", (event) => {
-    // event.preventDefault()
     if (event.target.localName === "span") {
         fetch(`https://jsonplaceholder.typicode.com/posts?_page=${event.target.innerText}&_limit=${POST_PER_PAGE}`)
             .then(response => {
@@ -59,12 +68,7 @@ postsPaginate.addEventListener("click", (event) => {
                 data.forEach((post) => {
                     logPosts(post);
                 })
-                event.target.classList.add("active");
-                Array.from(postsPaginate.children).forEach(item => {
-                    if (item !== event.target) {
-                        item.classList.remove("active");
-                    }
-                })
+                addActiveToClassList(event);
             })
     }
 })

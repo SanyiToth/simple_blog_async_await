@@ -30,8 +30,8 @@
 }
 
 .active{
-
     color: red;
+    text-decoration: underline;
 }
 
 
