@@ -1,5 +1,5 @@
-let posts = document.getElementById("grid-container")
-
+const posts = document.getElementById("grid-container")
+const selector = document.getElementById("selector-post-order")
 
 function logPosts(index, post) {
     if (index < 30) {
@@ -24,35 +24,33 @@ getPosts().then(data => {
 })
 
 
-/*let getPosts = (resource) => {
-   return new Promise((resolve, reject) => {
-       const request = new XMLHttpRequest();
-       request.addEventListener("readystatechange", () => {
-           if (request.readyState === 4 && request.status === 200) {
-               let data = JSON.parse(request.responseText);
-               resolve(data);
-           } else if (request.readyState === 4 && request.status === 404) {
-               reject("error:data fetch failed");
-           }
-       })
-       request.open('GET', resource);
-       request.send();
-   })
-}
+selector.addEventListener("change", (event) => {
+    if (event.target.value === "oldest first") {//ascend
+        fetch("https://jsonplaceholder.typicode.com/posts?_sort=id&_order=asc")
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                posts.innerHTML="";
+                data.forEach((post, index) => {
+                    logPosts(index, post);
+                })
+            })
+    } else {
+        fetch("https://jsonplaceholder.typicode.com/posts?_sort=id&_order=desc")
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                posts.innerHTML="";
+                data.forEach((post, index) => {
+                    logPosts(index, post);
+                })
+            })
+    }
+})
 
-let getPostsPromise = getPosts("https://jsonplaceholder.typicode.com/posts");
 
-
-
-
-getPostsPromise.then(data => {
-       data.forEach((post, index) => {
-           logPosts(index, post);
-       })
-   }
-)
-   .catch(data => console.log("promise was rejected:", data));
-*/
 
 
 
