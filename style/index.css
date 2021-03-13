@@ -13,23 +13,36 @@
 }
 
 #selector {
-    text-align: right;
+    /*text-align: right;*/
     margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
 }
 
-#paginate{
+#selector div {
+    padding: 10px;
+}
+
+#selector p{
+    margin: 0;
+    padding:  10px 0;
+}
+
+#paginate {
     display: flex;
     justify-content: center;
     align-items: center;
-    height:100px;
+    height: 100px;
 }
 
-#paginate span{
+#paginate span {
     padding: 10px;
     cursor: pointer;
 }
 
-.active{
+.active {
     color: red;
     text-decoration: underline;
 }

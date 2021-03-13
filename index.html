@@ -12,12 +12,24 @@
     <h2>This is the best app for people with apps.</h2>
 </header>
 <section id="selector">
-    <label for="selector-post-order">Posts order:</label><br>
-    <select name="selector-post-order" id="selector-post-order">
-        <option value="" disabled selected>Select posts order</option>
-        <option value="latest first">latest first</option>
-        <option value="oldest first">oldest first</option>
-    </select>
+    <div>
+        <label for="selector-post-per-page">Posts:</label><br>
+        <select name="selector-post-per-page" id="selector-post-per-page">
+            <option value="10">10</option>
+            <option value="30">30</option>
+            <option value="60">60</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+    <p id="selector-posts-length"></p>
+    <div>
+        <label for="selector-post-order">Posts order:</label><br>
+        <select name="selector-post-order" id="selector-post-order">
+            <option value="" disabled selected>Select posts order</option>
+            <option value="latest first">latest first</option>
+            <option value="oldest first">oldest first</option>
+        </select>
+    </div>
 </section>
 <section id="grid-container">
 </section>

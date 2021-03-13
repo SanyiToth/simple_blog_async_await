@@ -10,6 +10,7 @@ function logBlog(data1) {
         if (locationHash === blog.id) {
             header.innerHTML = `<h1>${blog.title}</h1>
                                 <div id="box">
+                                    <p>id:<span>${blog.id}</span></p>
                                     <p>Author:<span>Leanne Graham</span></p>
                                     <p>website:<span>hildegard.org</span></p>
                                     <a href="index.html" > << All posts</a> 
