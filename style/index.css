@@ -25,9 +25,9 @@
     padding: 10px;
 }
 
-#selector p{
+#selector p {
     margin: 0;
-    padding:  10px 0;
+    padding: 10px 0;
 }
 
 #paginate {
@@ -35,6 +35,19 @@
     justify-content: center;
     align-items: center;
     height: 100px;
+}
+
+#paginate div {
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
 }
 
 #paginate span {
