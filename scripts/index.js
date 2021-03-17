@@ -5,10 +5,6 @@ const postPerPage = document.getElementById("selector-post-per-page");
 const postLength = document.getElementById("selector-posts-length");
 const selectorSection = document.getElementById("selector");
 const orderSelector = document.getElementById("selector-post-order");
-const prevPage = document.getElementById('paginate-previous');
-const nextPage = document.getElementById('next');
-const firstPage = document.getElementById('paginate-first-page');
-const lastPage = document.getElementById('paginate-last-page');
 let linkHeaders;
 let order = "asc";
 
@@ -40,10 +36,11 @@ function getActivePage() {
     return result;
 }
 
-function setActivePage(event) {
-    event.target.classList.add("active");
+function setActivePage(activePageNumber) {
     Array.from(pageNumbers.children).forEach(item => {
-        if (item !== event.target) {
+        if (item.innerText === activePageNumber) {
+            item.classList.add("active");
+        } else {
             item.classList.remove("active");
         }
     })
@@ -88,14 +85,57 @@ paginateSection.addEventListener("click", (event) => {
                 data.forEach((post) => {
                     logPosts(post);
                 })
-                setActivePage(event);
+                const activePageNumber = event.target.innerText;
+                setActivePage(activePageNumber);
             })
     }
     if (event.target.innerText === "<") {
-        console.log('<')
+        console.log('getActivePage', Number.parseInt(getActivePage()))
+        // if (Number.parseInt(getActivePage()) > 1) {
+        linkHeaders.split(',').forEach(item => {
+            if (item.split(';')[1].includes("prev")) {
+                let request = item.split(';')[0]
+                request = request.slice(2, request.length - 1)
+                fetch(request)
+                    .then(response => {
+                        return response.json()
+                    })
+                    .then(data => {
+                        posts.innerHTML = "";
+                        // document.body.scrollTop = 0;
+                        data.forEach((post) => {
+                            logPosts(post);
+                        })
+                        /* const newActivePage = (Number.parseInt(getActivePage()) - 1).toString();
+                         console.log("newActivePage",newActivePage)
+                         setActivePage(newActivePage);*/
+                    })
+            }
+        })
+        //}
+
     }
     if (event.target.innerText === ">") {
         console.log('>')
+        linkHeaders.split(',').forEach(item => {
+            if (item.split(';')[1].includes("next")) {
+                let request = item.split(';')[0]
+                request = request.slice(2, request.length - 1)
+                console.log("request", request);
+                fetch(request)
+                    .then(response => {
+                        console.log(response)
+                        return response.json()
+                    })
+                    .then(data => {
+                        posts.innerHTML = "";
+                        document.body.scrollTop = 0;
+                        data.forEach((post) => {
+                            logPosts(post);
+                        })
+                    })
+            }
+        })
     }
     if (event.target.innerText === ">>") {
         console.log('>>')
@@ -115,6 +155,8 @@ paginateSection.addEventListener("click", (event) => {
                         data.forEach((post) => {
                             logPosts(post);
                         })
+                        const newActivePage = pageNumbers.lastChild.textContent;
+                        setActivePage(newActivePage);
                     })
             }
         })
@@ -133,10 +175,11 @@ paginateSection.addEventListener("click", (event) => {
                     })
                     .then(data => {
                         posts.innerHTML = "";
-                        document.body.scrollTop = 0;
+                        // document.body.scrollTop = 0;
                         data.forEach((post) => {
                             logPosts(post);
                         })
+                        setActivePage("1");
                     })
             }
         })
