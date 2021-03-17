@@ -77,115 +77,124 @@ getPartOfPosts().then(data => {
     })
 })
 paginateSection.addEventListener("click", (event) => {
-    if (event.target.localName === "span") {
-        getPartOfPosts(order, event.target.innerText, postPerPage.value)
-            .then(data => {
-                posts.innerHTML = "";
-                document.body.scrollTop = 0;
-                data.forEach((post) => {
-                    logPosts(post);
+        if (event.target.localName === "span") {
+            getPartOfPosts(order, event.target.innerText, postPerPage.value)
+                .then(data => {
+                    posts.innerHTML = "";
+                    //document.body.scrollTop = 0;
+                    data.forEach((post) => {
+                        logPosts(post);
+                    })
+                    const activePageNumber = event.target.innerText;
+                    setActivePage(activePageNumber);
                 })
-                const activePageNumber = event.target.innerText;
-                setActivePage(activePageNumber);
+        }
+        else if (event.target.innerText === "<") {
+            console.log('getActivePage', Number.parseInt(getActivePage()))
+            if (Number.parseInt(getActivePage()) > 1) {
+                linkHeaders.split(',').forEach(item => {
+                    if (item.split(';')[1].includes("prev")) {
+                        let request = item.split(';')[0]
+                        request = request.slice(2, request.length - 1)
+                        fetch(request)
+                            .then(response => {
+                                linkHeaders = response.headers.get('Link');
+                                return response.json()
+                            })
+                            .then(data => {
+                                posts.innerHTML = "";
+                                // document.body.scrollTop = 0;
+                                data.forEach((post) => {
+                                    logPosts(post);
+                                })
+                                const newActivePage = (Number.parseInt(getActivePage()) - 1).toString();
+                                console.log("newActivePage", newActivePage)
+                                setActivePage(newActivePage);
+                            })
+                    }
+                })
+            }
+
+        }
+        else if (event.target.innerText === ">") {
+            console.log('>')
+            const lastPageNumber = Number.parseInt(pageNumbers.lastChild.textContent);
+            if (Number.parseInt(getActivePage()) < lastPageNumber) {
+                linkHeaders.split(',').forEach(item => {
+                    if (item.split(';')[1].includes("next")) {
+                        let request = item.split(';')[0]
+                        request = request.slice(2, request.length - 1)
+                        console.log("request", request);
+                        fetch(request)
+                            .then(response => {
+                                linkHeaders = response.headers.get('Link');
+                                console.log(response)
+                                return response.json()
+                            })
+                            .then(data => {
+                                posts.innerHTML = "";
+                                //document.body.scrollTop = 0;
+                                data.forEach((post) => {
+                                    logPosts(post);
+                                })
+                                const newActivePage = (Number.parseInt(getActivePage()) + 1).toString();
+                                console.log("newActivePage", newActivePage)
+                                setActivePage(newActivePage);
+                            })
+                    }
+                })
+            }
+        }
+        else if (event.target.innerText === ">>") {
+            console.log('>>')
+            linkHeaders.split(',').forEach(item => {
+                if (item.split(';')[1].includes("last")) {
+                    let request = item.split(';')[0]
+                    request = request.slice(2, request.length - 1)
+                    console.log(request);
+                    fetch(request)
+                        .then(response => {
+                            console.log(response)
+                            return response.json()
+                        })
+                        .then(data => {
+                            posts.innerHTML = "";
+                            //document.body.scrollTop = 0;
+                            data.forEach((post) => {
+                                logPosts(post);
+                            })
+                            const newActivePage = pageNumbers.lastChild.textContent;
+                            setActivePage(newActivePage);
+                        })
+                }
             })
-    }
-    if (event.target.innerText === "<") {
-        console.log('getActivePage', Number.parseInt(getActivePage()))
-        // if (Number.parseInt(getActivePage()) > 1) {
-        linkHeaders.split(',').forEach(item => {
-            if (item.split(';')[1].includes("prev")) {
-                let request = item.split(';')[0]
-                request = request.slice(2, request.length - 1)
-                fetch(request)
-                    .then(response => {
-                        return response.json()
-                    })
-                    .then(data => {
-                        posts.innerHTML = "";
-                        // document.body.scrollTop = 0;
-                        data.forEach((post) => {
-                            logPosts(post);
+        }
+        else if (event.target.innerText === "<<") {
+            console.log('<<')
+            linkHeaders.split(',').forEach(item => {
+                if (item.split(';')[1].includes("first")) {
+                    let request = item.split(';')[0]
+                    request = request.slice(1, request.length - 1)
+                    console.log(request);
+                    fetch(request)
+                        .then(response => {
+                            console.log(response)
+                            return response.json()
                         })
-                        /* const newActivePage = (Number.parseInt(getActivePage()) - 1).toString();
-                         console.log("newActivePage",newActivePage)
-                         setActivePage(newActivePage);*/
-                    })
-            }
-        })
-        //}
+                        .then(data => {
+                            posts.innerHTML = "";
+                            // document.body.scrollTop = 0;
+                            data.forEach((post) => {
+                                logPosts(post);
+                            })
+                            setActivePage("1");
+                        })
+                }
+            })
 
+        }
     }
-    if (event.target.innerText === ">") {
-        console.log('>')
-        linkHeaders.split(',').forEach(item => {
-            if (item.split(';')[1].includes("next")) {
-                let request = item.split(';')[0]
-                request = request.slice(2, request.length - 1)
-                console.log("request", request);
-                fetch(request)
-                    .then(response => {
-                        console.log(response)
-                        return response.json()
-                    })
-                    .then(data => {
-                        posts.innerHTML = "";
-                        document.body.scrollTop = 0;
-                        data.forEach((post) => {
-                            logPosts(post);
-                        })
-                    })
-            }
-        })
-    }
-    if (event.target.innerText === ">>") {
-        console.log('>>')
-        linkHeaders.split(',').forEach(item => {
-            if (item.split(';')[1].includes("last")) {
-                let request = item.split(';')[0]
-                request = request.slice(2, request.length - 1)
-                console.log(request);
-                fetch(request)
-                    .then(response => {
-                        console.log(response)
-                        return response.json()
-                    })
-                    .then(data => {
-                        posts.innerHTML = "";
-                        document.body.scrollTop = 0;
-                        data.forEach((post) => {
-                            logPosts(post);
-                        })
-                        const newActivePage = pageNumbers.lastChild.textContent;
-                        setActivePage(newActivePage);
-                    })
-            }
-        })
-    }
-    if (event.target.innerText === "<<") {
-        console.log('<<')
-        linkHeaders.split(',').forEach(item => {
-            if (item.split(';')[1].includes("first")) {
-                let request = item.split(';')[0]
-                request = request.slice(1, request.length - 1)
-                console.log(request);
-                fetch(request)
-                    .then(response => {
-                        console.log(response)
-                        return response.json()
-                    })
-                    .then(data => {
-                        posts.innerHTML = "";
-                        // document.body.scrollTop = 0;
-                        data.forEach((post) => {
-                            logPosts(post);
-                        })
-                        setActivePage("1");
-                    })
-            }
-        })
-
-    }
-})
+)
 selectorSection.addEventListener("change", (event) => {
     if (event.target.value === "oldest first") {
         order = "asc";
